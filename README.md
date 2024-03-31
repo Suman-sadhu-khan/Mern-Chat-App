@@ -47,7 +47,6 @@ Start the server
 Start the Client
 
 ```bash
-  //open now terminal
   cd frontend
   npm start
 ```
