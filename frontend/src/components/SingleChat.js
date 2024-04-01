@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { ChatState } from '../Context/ChatProvider';
 import { Box, Text } from '@chakra-ui/layout';
-import { Button, FormControl, IconButton, Input, Spinner, useToast } from '@chakra-ui/react';
-import { ArrowBackIcon } from '@chakra-ui/icons';
+import { Button, FormControl, IconButton, Input, InputGroup, InputRightElement, Spinner, useToast } from '@chakra-ui/react';
+import { ArrowBackIcon, ArrowRightIcon, CheckIcon } from '@chakra-ui/icons';
 import { getSender, getSenderFull } from '../config/ChatLogics';
 import UpdateGroupChatModal from './miscellaneous/UpdateGroupChatModal';
 import ProfileModal from './miscellaneous/ProfileModal';
@@ -104,8 +104,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   })
 
   const sendMessage = async (event) => {
-    if (event.key === "Enter" && newMessage) {
+    if ((event.key === "Enter" || event.type==="click") && newMessage) {
       socket.emit("stop typing", selectedChat._id);
+      setIsTyping(false);
       try {
         const config = {
           headers: {
@@ -227,7 +228,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 margin="auto"
               />
             ) : (
-              <div className="messages">
+              <div className="messages" >
+
                  <ScrollableChat messages={messages} /> 
               </div>
             )}
@@ -237,10 +239,11 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               id="first-name"
               isRequired
               mt={3}
+              // style={{display:"flex"}}
               
             >
               {isTyping ? (
-                <div>
+                <div >
                    <Lottie
                     options={defaultOptions}
                     // height={50}
@@ -251,21 +254,28 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               ) : (
                 <></>
               )}
-              <Input
+              <div style={{display:"flex"}}>
+                <Input
                 variant="filled"
                 bg="#d3d0d0"
                 placeholder="Enter a message.."
                 value={newMessage}
                 onChange={typingHandler}
                 marginBottom={"4px"}
-              />
-              {/* <Button
-                variant="solid"
-                colorScheme="teal"
-                ml={1}
-              >
-                Update
-              </Button> */}
+                />
+                
+                    <Button
+                    onClick={sendMessage}
+                      variant="solid"
+                      colorScheme="teal"
+                      ml={1}
+                    >
+                     <CheckIcon/>
+                    </Button> 
+                
+              </div>
+              
+               
             </FormControl>
           </Box> 
         </>
