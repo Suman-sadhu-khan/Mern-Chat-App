@@ -99,7 +99,7 @@ const Login = () => {
         </Button>
 
         <Button varient="solid" colorScheme='green' width="100%" style={{marginTop:15}} onClick={()=>{
-            setFormData({ ...formData,email:"guest@example.com", password: "1234567"})
+            setFormData({ ...formData,email:"guest@suman.com", password: "1234"})
         }}>
            Get Guest User Credentials
         </Button>
